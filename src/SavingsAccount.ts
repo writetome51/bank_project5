@@ -1,4 +1,4 @@
-import {AbstractAccount, Account} from './Account';
+import {AbstractAccount, Account} from './AbstractAccount';
 import { displayClassName, displayClassNameWithPurpose } from "./decorators";
 
 @displayClassNameWithPurpose('to prove typescript wrong')

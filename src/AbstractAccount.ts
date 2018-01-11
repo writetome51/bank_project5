@@ -1,15 +1,5 @@
-
-export interface Account {
-  accountHolderName: string;
-  accountHolderBirthDate: Date;
-  balance: number;
-  accountType: AccountType;
-  accountHistory: Transaction[];
-  withdrawMoney(amount: number, description: string, transactionOrigin: TransactionOrigin): Transaction;
-  depositMoney(amount: number, description: string): Transaction;
-  advanceDate(numberOfDays: number);
-
-}
+import {Account} from './Account.interface';
+import {Transaction} from './Transaction';
 
 
 export abstract class AbstractAccount implements Account{
@@ -21,6 +11,9 @@ export abstract class AbstractAccount implements Account{
 	accountHistory: Transaction[];
 
 	withdrawMoney(amount: number, description: string, transactionOrigin: TransactionOrigin): Transaction {
+		if (amount < this.balance){
+			this.balance -= amount;
+		}
 		throw new Error("Method not implemented.");
 	}
 

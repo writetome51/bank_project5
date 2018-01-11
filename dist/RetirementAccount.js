@@ -18,24 +18,24 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 Object.defineProperty(exports, "__esModule", { value: true });
 var AbstractAccount_1 = require("./AbstractAccount");
 var decorators_1 = require("./decorators");
-var CheckingAccount = /** @class */ (function (_super) {
-    __extends(CheckingAccount, _super);
-    function CheckingAccount() {
+var RetirementAccount = /** @class */ (function (_super) {
+    __extends(RetirementAccount, _super);
+    function RetirementAccount() {
         return _super !== null && _super.apply(this, arguments) || this;
     }
-    CheckingAccount.prototype.withdrawMoney = function (amount, description, transactionOrigin) {
+    RetirementAccount.prototype.withdrawMoney = function (amount, description, transactionOrigin) {
         throw new Error("Method not implemented.");
     };
-    CheckingAccount.prototype.depositMoney = function (amount, description) {
+    RetirementAccount.prototype.depositMoney = function (amount, description) {
         throw new Error("Method not implemented.");
     };
-    CheckingAccount.prototype.advanceDate = function (numberOfDays) {
+    RetirementAccount.prototype.advanceDate = function (numberOfDays) {
         throw new Error("Method not implemented.");
     };
-    CheckingAccount = __decorate([
+    RetirementAccount = __decorate([
         decorators_1.displayClassNameWithPurpose('to prove typescript wrong')
-    ], CheckingAccount);
-    return CheckingAccount;
+    ], RetirementAccount);
+    return RetirementAccount;
 }(AbstractAccount_1.AbstractAccount));
-exports.CheckingAccount = CheckingAccount;
-//# sourceMappingURL=CheckingAccount.js.map
+exports.RetirementAccount = RetirementAccount;
+//# sourceMappingURL=RetirementAccount.js.map

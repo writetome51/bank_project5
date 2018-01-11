@@ -1,4 +1,5 @@
-interface Transaction {
+export interface Transaction {
+
   success: boolean;
   // amount will be positive for deposits and negative for withdrawals:
   amount: number;
@@ -8,16 +9,7 @@ interface Transaction {
   description: string;
   // errorMessage will be an empty string when success is true:
   errorMessage: string;
-}
-
-
-class Transaction implements Transaction{
-
-	success:boolean;
-	amount:number;
-	resultBalance:number;
-	transactionDate:Date;
-	description:string;
-	errorMessage:string;
 
 }
+
+
