@@ -11,10 +11,28 @@ export abstract class AbstractAccount implements Account{
 	accountHistory: Transaction[];
 
 	withdrawMoney(amount: number, description: string, transactionOrigin: TransactionOrigin): Transaction {
+		let success, errorMsg;
 		if (amount < this.balance){
 			this.balance -= amount;
+				success = true;
+				description = 'Successful withdrawal of $' + amount;
+				errorMsg = '';
 		}
-		throw new Error("Method not implemented.");
+		else{
+				success = false;
+				description = 'Unsuccessful withdrawal of $' + amount;
+				errorMsg = 'Insufficient funds.  Withdrawal amount too high.';
+		}
+		return {
+			success: success,
+			amount: -(amount),
+			resultBalance: this.balance,
+			transactionDate: new Date(),
+			description: description,
+			// errorMessage will be an empty string when success is true:
+			errorMessage: errorMsg
+		};
+
 	}
 
 	depositMoney(amount: number, description: string): Transaction {
