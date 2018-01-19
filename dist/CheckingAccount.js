@@ -23,15 +23,6 @@ var CheckingAccount = /** @class */ (function (_super) {
     function CheckingAccount() {
         return _super !== null && _super.apply(this, arguments) || this;
     }
-    CheckingAccount.prototype.withdrawMoney = function (amount, description, transactionOrigin) {
-        throw new Error("Method not implemented.");
-    };
-    CheckingAccount.prototype.depositMoney = function (amount, description) {
-        throw new Error("Method not implemented.");
-    };
-    CheckingAccount.prototype.advanceDate = function (numberOfDays) {
-        throw new Error("Method not implemented.");
-    };
     CheckingAccount = __decorate([
         decorators_1.displayClassNameWithPurpose('to prove typescript wrong')
     ], CheckingAccount);

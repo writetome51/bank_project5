@@ -1,11 +1,10 @@
 import { AbstractAccount } from './AbstractAccount';
-import {Transaction} from "./Transaction";
+import {Transaction} from "./Transaction.interface";
 import { displayClassName, displayClassNameWithPurpose } from "./decorators";
 
 @displayClassNameWithPurpose('to prove typescript wrong')
 
 export class SavingsAccount extends AbstractAccount {
-
 
   withdrawMoney(amount: number, description: string, transactionOrigin: TransactionOrigin): Transaction {
     throw new Error("Method not implemented.");
