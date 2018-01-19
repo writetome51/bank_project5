@@ -1,18 +1,18 @@
 import {Account} from './Account.interface';
 import {Transaction} from './Transaction.interface';
+import {TransactionOrigin} from "./TransactionOrigin";
+import {AccountType} from "./AccountType";
 
 
 export abstract class AbstractAccount implements Account{
 
 	accountHolderName: string;
 	accountHolderBirthDate: Date;
+	accountHolderAge:number;
 	balance: number;
 	accountType: AccountType;
-	accountHistory: Transaction[];
+	accountHistory: Transaction[] = [];
 
-	constructor(){
-		this.accountHistory = this.accountHistory || [];
-	}
 
 	withdrawMoney(amount: number, description: string, transactionOrigin: TransactionOrigin): Transaction {
 		let success:boolean, errorMsg:string;
@@ -38,6 +38,7 @@ export abstract class AbstractAccount implements Account{
 			resultBalance: this.balance,
 			transactionDate: new Date(),
 			description: description,
+			transactionOrigin:transactionOrigin,
 			errorMessage: errorMsg
 		};
 

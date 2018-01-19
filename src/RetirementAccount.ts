@@ -1,20 +1,43 @@
 import { AbstractAccount } from './AbstractAccount';
 import {Transaction} from "./Transaction.interface";
-import { displayClassName, displayClassNameWithPurpose } from "./decorators";
+import {AccountType} from "./AccountType";
+import {TransactionOrigin} from "./TransactionOrigin";
 
-@displayClassNameWithPurpose('to prove typescript wrong')
 
 export class RetirementAccount extends AbstractAccount {
 
-  withdrawMoney(amount: number, description: string, transactionOrigin: TransactionOrigin): Transaction {
-    throw new Error("Method not implemented.");
-  }
+	balance = 100000;
+	accountType = AccountType.retirement;
 
-  depositMoney(amount: number, description: string): Transaction {
-    throw new Error("Method not implemented.");
-  }
 
-  advanceDate(numberOfDays: number) {
-    throw new Error("Method not implemented.");
-  }
+ 	constructor(birthDate: Date){
+ 		super();
+
+ 		this.accountHolderBirthDate = birthDate;
+ 		this.accountHolderAge = getAge(this.accountHolderBirthDate);
+
+
+		function getAge(birthDate): number{
+			let currentYear = (new Date()).getFullYear();
+			return currentYear - birthDate.getFullYear();
+		}
+	}
+
+
+	withdrawMoney(amount: number, description: string, transactionOrigin: TransactionOrigin): Transaction{
+		if (this.accountHolderAge < 60){
+			this.balance -= this._getTenPercentOf(this.balance);
+		}
+ 		return super.withdrawMoney(amount, description, transactionOrigin);
+
+	}
+
+
+	private _getTenPercentOf(amount){
+ 		return (amount * 0.1);
+	}
+
+
+
 }
+

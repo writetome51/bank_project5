@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 var AbstractAccount = /** @class */ (function () {
     function AbstractAccount() {
-        this.accountHistory = this.accountHistory || [];
+        this.accountHistory = [];
     }
     AbstractAccount.prototype.withdrawMoney = function (amount, description, transactionOrigin) {
         var success, errorMsg;
@@ -25,6 +25,7 @@ var AbstractAccount = /** @class */ (function () {
             resultBalance: this.balance,
             transactionDate: new Date(),
             description: description,
+            transactionOrigin: transactionOrigin,
             errorMessage: errorMsg
         };
         this.accountHistory.push(thisTransaction);

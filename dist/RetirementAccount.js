@@ -9,32 +9,32 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 var AbstractAccount_1 = require("./AbstractAccount");
-var decorators_1 = require("./decorators");
+var AccountType_1 = require("./AccountType");
 var RetirementAccount = /** @class */ (function (_super) {
     __extends(RetirementAccount, _super);
-    function RetirementAccount() {
-        return _super !== null && _super.apply(this, arguments) || this;
+    function RetirementAccount(birthDate) {
+        var _this = _super.call(this) || this;
+        _this.balance = 100000;
+        _this.accountType = AccountType_1.AccountType.retirement;
+        _this.accountHolderBirthDate = birthDate;
+        _this.accountHolderAge = getAge(_this.accountHolderBirthDate);
+        function getAge(birthDate) {
+            var currentYear = (new Date()).getFullYear();
+            return currentYear - birthDate.getFullYear();
+        }
+        return _this;
     }
     RetirementAccount.prototype.withdrawMoney = function (amount, description, transactionOrigin) {
-        throw new Error("Method not implemented.");
+        if (this.accountHolderAge < 60) {
+            this.balance -= this._getTenPercentOf(this.balance);
+        }
+        return _super.prototype.withdrawMoney.call(this, amount, description, transactionOrigin);
     };
-    RetirementAccount.prototype.depositMoney = function (amount, description) {
-        throw new Error("Method not implemented.");
+    RetirementAccount.prototype._getTenPercentOf = function (amount) {
+        return (amount * 0.1);
     };
-    RetirementAccount.prototype.advanceDate = function (numberOfDays) {
-        throw new Error("Method not implemented.");
-    };
-    RetirementAccount = __decorate([
-        decorators_1.displayClassNameWithPurpose('to prove typescript wrong')
-    ], RetirementAccount);
     return RetirementAccount;
 }(AbstractAccount_1.AbstractAccount));
 exports.RetirementAccount = RetirementAccount;

@@ -1,11 +1,16 @@
 import { AbstractAccount } from './AbstractAccount';
 import {Transaction} from "./Transaction.interface";
-import { displayClassName, displayClassNameWithPurpose } from "./decorators";
 
-@displayClassNameWithPurpose('to prove typescript wrong')
 
 export class CheckingAccount extends AbstractAccount {
 
+	constructor(){
+		super();
 
+		this.balance = 1000;
+
+	}
 
 }
+
+
