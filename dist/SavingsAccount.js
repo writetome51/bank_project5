@@ -11,13 +11,58 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var AbstractAccount_1 = require("./AbstractAccount");
+var TransactionOrigin_1 = require("./TransactionOrigin");
+var AccountType_1 = require("./AccountType");
 var SavingsAccount = /** @class */ (function (_super) {
     __extends(SavingsAccount, _super);
-    function SavingsAccount() {
-        var _this = _super.call(this) || this;
+    function SavingsAccount(accountHolderName, accountHolderBirthDate, accountCreationDate) {
+        var _this = _super.call(this, accountHolderName, accountHolderBirthDate, accountCreationDate) || this;
         _this.balance = 10000;
+        _this.accountType = AccountType_1.AccountType.savings;
+        _this._interestRate = 0.02;
         return _this;
     }
+    SavingsAccount.prototype.withdrawMoney = function (amount, description, transactionOrigin) {
+        if ((transactionOrigin === TransactionOrigin_1.TransactionOrigin.phone || transactionOrigin === TransactionOrigin_1.TransactionOrigin.web) &&
+            this._hasSixWithdrawalsFromWebAndPhone()) {
+            var thisTransaction = {
+                success: false,
+                amount: -(amount),
+                resultBalance: this.balance,
+                transactionDate: new Date(),
+                description: description,
+                transactionOrigin: transactionOrigin,
+                errorMessage: 'You have met your limit of 6 withdrawals by phone or web this month.'
+            };
+            return thisTransaction;
+        }
+        else {
+            return _super.prototype.withdrawMoney.call(this, amount, description, transactionOrigin);
+        }
+    };
+    SavingsAccount.prototype._hasSixWithdrawalsFromWebAndPhone = function () {
+        var numPhoneOrWebTransactions = 0;
+        var theDate = new Date();
+        var currentMonth = theDate.getMonth();
+        var currentYear = theDate.getFullYear();
+        this.accountHistory.forEach(function (transaction) {
+            if (transaction.success && transaction.transactionOrigin &&
+                (transaction.transactionOrigin === TransactionOrigin_1.TransactionOrigin.web ||
+                    transaction.transactionOrigin === TransactionOrigin_1.TransactionOrigin.phone)) {
+                if (monthOf(transaction.transactionDate) === currentMonth &&
+                    yearOf(transaction.transactionDate) === currentYear) {
+                    ++numPhoneOrWebTransactions;
+                }
+            }
+            function monthOf(date) {
+                return date.getMonth();
+            }
+            function yearOf(date) {
+                return date.getFullYear();
+            }
+        });
+        return (numPhoneOrWebTransactions >= 6);
+    };
     return SavingsAccount;
 }(AbstractAccount_1.AbstractAccount));
 exports.SavingsAccount = SavingsAccount;

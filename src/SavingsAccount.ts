@@ -1,16 +1,19 @@
 import { AbstractAccount } from './AbstractAccount';
 import {Transaction} from "./Transaction.interface";
 import {TransactionOrigin} from "./TransactionOrigin";
+import {AccountType} from "./AccountType";
 
 
 
 export class SavingsAccount extends AbstractAccount {
 
 	balance = 10000;
+	accountType = AccountType.savings;
+	protected _interestRate = 0.02;
 
-	constructor(){
-		super();
 
+	constructor(accountHolderName:string, accountHolderBirthDate:Date, accountCreationDate:Date){
+		super(accountHolderName, accountHolderBirthDate, accountCreationDate);
 	}
 
 
@@ -35,20 +38,35 @@ export class SavingsAccount extends AbstractAccount {
 	}
 
 
-	private _hasSixWithdrawalsFromWebAndPhone(){
-		let numPhoneOrWebTransactions = 0;
 
+	private _hasSixWithdrawalsFromWebAndPhone(): boolean{
+		let numPhoneOrWebTransactions = 0;
+		let theDate = new Date();
+		let currentMonth = theDate.getMonth();
+		let currentYear = theDate.getFullYear();
 		this.accountHistory.forEach(
 			function(transaction){
 				if (transaction.success && transaction.transactionOrigin &&
 					(transaction.transactionOrigin === TransactionOrigin.web ||
 						transaction.transactionOrigin === TransactionOrigin.phone)){
-					++numPhoneOrWebTransactions;
+					if (monthOf(transaction.transactionDate) === currentMonth &&
+						yearOf(transaction.transactionDate) === currentYear){
+						++numPhoneOrWebTransactions;
+					}
+				}
+
+				function monthOf(date){
+					return date.getMonth();
+				}
+
+				function yearOf(date){
+					return date.getFullYear();
 				}
 			}
 		);
 		return (numPhoneOrWebTransactions >= 6);
 	}
+
 
 
 }

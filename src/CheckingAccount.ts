@@ -1,15 +1,21 @@
 import { AbstractAccount } from './AbstractAccount';
 import {Transaction} from "./Transaction.interface";
+import {TransactionOrigin} from "./TransactionOrigin";
+import {AccountType} from "./AccountType";
 
 
 export class CheckingAccount extends AbstractAccount {
 
-	constructor(){
-		super();
+	balance = 1000;
+	accountType = AccountType.checking;
+	protected _interestRate = 0.01;
 
-		this.balance = 1000;
 
+	constructor(accountHolderName:string, accountHolderBirthDate:Date, accountCreationDate:Date){
+		super(accountHolderName, accountHolderBirthDate, accountCreationDate);
 	}
+
+
 
 }
 

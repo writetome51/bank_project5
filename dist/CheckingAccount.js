@@ -11,11 +11,14 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var AbstractAccount_1 = require("./AbstractAccount");
+var AccountType_1 = require("./AccountType");
 var CheckingAccount = /** @class */ (function (_super) {
     __extends(CheckingAccount, _super);
-    function CheckingAccount() {
-        var _this = _super.call(this) || this;
+    function CheckingAccount(accountHolderName, accountHolderBirthDate, accountCreationDate) {
+        var _this = _super.call(this, accountHolderName, accountHolderBirthDate, accountCreationDate) || this;
         _this.balance = 1000;
+        _this.accountType = AccountType_1.AccountType.checking;
+        _this._interestRate = 0.01;
         return _this;
     }
     return CheckingAccount;

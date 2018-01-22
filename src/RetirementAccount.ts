@@ -8,19 +8,11 @@ export class RetirementAccount extends AbstractAccount {
 
 	balance = 100000;
 	accountType = AccountType.retirement;
+	protected _interestRate = 0.03;
 
 
- 	constructor(birthDate: Date){
- 		super();
-
- 		this.accountHolderBirthDate = birthDate;
- 		this.accountHolderAge = getAge(this.accountHolderBirthDate);
-
-
-		function getAge(birthDate): number{
-			let currentYear = (new Date()).getFullYear();
-			return currentYear - birthDate.getFullYear();
-		}
+ 	constructor(accountHolderName:string, accountHolderBirthDate:Date, accountCreationDate:Date){
+ 		super(accountHolderName, accountHolderBirthDate, accountCreationDate);
 	}
 
 
@@ -31,6 +23,7 @@ export class RetirementAccount extends AbstractAccount {
  		return super.withdrawMoney(amount, description, transactionOrigin);
 
 	}
+
 
 
 	private _getTenPercentOf(amount){

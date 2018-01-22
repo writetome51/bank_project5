@@ -12,10 +12,50 @@ export abstract class AbstractAccount implements Account{
 	balance: number;
 	accountType: AccountType;
 	accountHistory: Transaction[] = [];
+	accountCreationDate: Date;
+	protected _interestRate: number;
+
+
+	constructor(accountHolderName:string, accountHolderBirthDate:Date, accountCreationDate:Date){
+		this.accountHolderName = accountHolderName;
+		this.accountHolderBirthDate = accountHolderBirthDate;
+		this.accountCreationDate = accountCreationDate;
+
+		this.accountHolderAge = getAge(this.accountHolderBirthDate);
+
+		this.addInterest();
+
+		function getAge(birthDate): number{
+			let currentYear = (new Date()).getFullYear();
+			return currentYear - birthDate.getFullYear();
+		}
+	}
+
+
+	addInterest(): void{
+		let interest = this.balance * this._interestRate / 12;
+		interest = this._roundTo2Decimals(interest);
+		this.balance += interest;
+	}
+
+	private _ifFirstTransactionOfMonthAddInterest(){
+		let currentMonth = (new Date()).getMonth();
+		let lastTransaction: Transaction = this.accountHistory[this.accountHistory.length - 1];
+		let lastTransactionMonth: number = lastTransaction.transactionDate.getMonth();
+		if (currentMonth > lastTransactionMonth){
+			let difference = currentMonth - lastTransactionMonth;
+			for (let i=0; i < difference; ++i){
+				this.addInterest();
+			}
+		}
+	}
 
 
 	withdrawMoney(amount: number, description: string, transactionOrigin: TransactionOrigin): Transaction {
+		this._ifFirstTransactionOfMonthAddInterest();
+
 		let success:boolean, errorMsg:string;
+		amount = this._roundTo2Decimals(amount);
 
 		if (amount < 0){
 			success = false;
@@ -49,7 +89,11 @@ export abstract class AbstractAccount implements Account{
 
 
 	depositMoney(amount: number, description: string): Transaction {
+		this._ifFirstTransactionOfMonthAddInterest();
+
 		let success:boolean, errorMsg:string;
+		amount = this._roundTo2Decimals(amount);
+
 		if (amount > 0){
 			this.balance += amount;
 			success = true;
@@ -74,7 +118,7 @@ export abstract class AbstractAccount implements Account{
 	}
 
 
-	advanceDate(numberOfDays: number) {
+	advanceDate(numberOfDays: number): Date {
 
 		let d = new Date();
 		let year = d.getFullYear();
@@ -119,4 +163,16 @@ export abstract class AbstractAccount implements Account{
 
 
 	}
+
+
+	protected _roundTo2Decimals(number){
+		return this._precisionRound(number, 2);
+	}
+
+
+	protected _precisionRound(number, precision) {
+		let factor = Math.pow(10, precision);
+		return Math.round(number * factor) / factor;
+	}
+
 }

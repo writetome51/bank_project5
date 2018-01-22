@@ -14,16 +14,11 @@ var AbstractAccount_1 = require("./AbstractAccount");
 var AccountType_1 = require("./AccountType");
 var RetirementAccount = /** @class */ (function (_super) {
     __extends(RetirementAccount, _super);
-    function RetirementAccount(birthDate) {
-        var _this = _super.call(this) || this;
+    function RetirementAccount(accountHolderName, accountHolderBirthDate, accountCreationDate) {
+        var _this = _super.call(this, accountHolderName, accountHolderBirthDate, accountCreationDate) || this;
         _this.balance = 100000;
         _this.accountType = AccountType_1.AccountType.retirement;
-        _this.accountHolderBirthDate = birthDate;
-        _this.accountHolderAge = getAge(_this.accountHolderBirthDate);
-        function getAge(birthDate) {
-            var currentYear = (new Date()).getFullYear();
-            return currentYear - birthDate.getFullYear();
-        }
+        _this._interestRate = 0.03;
         return _this;
     }
     RetirementAccount.prototype.withdrawMoney = function (amount, description, transactionOrigin) {

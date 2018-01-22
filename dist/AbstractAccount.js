@@ -1,11 +1,38 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var AbstractAccount = /** @class */ (function () {
-    function AbstractAccount() {
+    function AbstractAccount(accountHolderName, accountHolderBirthDate, accountCreationDate) {
         this.accountHistory = [];
+        this.accountHolderName = accountHolderName;
+        this.accountHolderBirthDate = accountHolderBirthDate;
+        this.accountCreationDate = accountCreationDate;
+        this.accountHolderAge = getAge(this.accountHolderBirthDate);
+        this.addInterest();
+        function getAge(birthDate) {
+            var currentYear = (new Date()).getFullYear();
+            return currentYear - birthDate.getFullYear();
+        }
     }
+    AbstractAccount.prototype.addInterest = function () {
+        var interest = this.balance * this._interestRate / 12;
+        interest = this._roundTo2Decimals(interest);
+        this.balance += interest;
+    };
+    AbstractAccount.prototype._ifFirstTransactionOfMonthAddInterest = function () {
+        var currentMonth = (new Date()).getMonth();
+        var lastTransaction = this.accountHistory[this.accountHistory.length - 1];
+        var lastTransactionMonth = lastTransaction.transactionDate.getMonth();
+        if (currentMonth > lastTransactionMonth) {
+            var difference = currentMonth - lastTransactionMonth;
+            for (var i = 0; i < difference; ++i) {
+                this.addInterest();
+            }
+        }
+    };
     AbstractAccount.prototype.withdrawMoney = function (amount, description, transactionOrigin) {
+        this._ifFirstTransactionOfMonthAddInterest();
         var success, errorMsg;
+        amount = this._roundTo2Decimals(amount);
         if (amount < 0) {
             success = false;
             errorMsg = 'Withdraw amount must be greater than zero.';
@@ -32,7 +59,9 @@ var AbstractAccount = /** @class */ (function () {
         return thisTransaction;
     };
     AbstractAccount.prototype.depositMoney = function (amount, description) {
+        this._ifFirstTransactionOfMonthAddInterest();
         var success, errorMsg;
+        amount = this._roundTo2Decimals(amount);
         if (amount > 0) {
             this.balance += amount;
             success = true;
@@ -84,6 +113,13 @@ var AbstractAccount = /** @class */ (function () {
             return ((year % 400 === 0) ||
                 (year % 4 === 0 && year % 100 !== 0));
         }
+    };
+    AbstractAccount.prototype._roundTo2Decimals = function (number) {
+        return this._precisionRound(number, 2);
+    };
+    AbstractAccount.prototype._precisionRound = function (number, precision) {
+        var factor = Math.pow(10, precision);
+        return Math.round(number * factor) / factor;
     };
     return AbstractAccount;
 }());
