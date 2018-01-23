@@ -16,14 +16,18 @@ export abstract class AbstractAccount implements Account{
 	protected _interestRate: number;
 
 
-	constructor(accountHolderName:string, accountHolderBirthDate:Date, accountCreationDate:Date){
+	constructor(
+		accountHolderName:string,  accountHolderBirthDate:Date,
+		initialBalance:number,  interestRate){
+
 		this.accountHolderName = accountHolderName;
 		this.accountHolderBirthDate = accountHolderBirthDate;
-		this.accountCreationDate = accountCreationDate;
-
 		this.accountHolderAge = getAge(this.accountHolderBirthDate);
+		this.balance = initialBalance;
+		this._interestRate = interestRate;
 
 		this.addInterest();
+		console.log(this.balance);
 
 		function getAge(birthDate): number{
 			let currentYear = (new Date()).getFullYear();
@@ -38,15 +42,34 @@ export abstract class AbstractAccount implements Account{
 		this.balance += interest;
 	}
 
+
 	private _ifFirstTransactionOfMonthAddInterest(){
-		let currentMonth = (new Date()).getMonth();
+		let currentDate = new Date();
+		let currentMonth = currentDate.getMonth();
+		let currentYear = currentDate.getFullYear();
+		if (this.accountHistory.length === 0){
+			return;
+		}
 		let lastTransaction: Transaction = this.accountHistory[this.accountHistory.length - 1];
-		let lastTransactionMonth: number = lastTransaction.transactionDate.getMonth();
-		if (currentMonth > lastTransactionMonth){
-			let difference = currentMonth - lastTransactionMonth;
-			for (let i=0; i < difference; ++i){
-				this.addInterest();
+		let lastTransactionDate: Date = lastTransaction.transactionDate;
+		let lastTransactionMonth = lastTransactionDate.getMonth();
+		let lastTransactionYear = lastTransactionDate.getFullYear();
+
+		let monthDifference = 0;
+		if (currentYear > lastTransactionYear){
+			let yearDifference = currentYear - lastTransactionYear;
+			if (yearDifference > 1){
+				monthDifference = ((yearDifference - 1) * 12);
 			}
+			monthDifference += (11 - lastTransactionMonth + currentMonth + 1);
+
+		}
+		else if (currentMonth > lastTransactionMonth){
+			monthDifference = currentMonth - lastTransactionMonth;
+		}
+
+		for (let i=0; i < monthDifference; ++i){
+			this.addInterest();
 		}
 	}
 
@@ -176,3 +199,5 @@ export abstract class AbstractAccount implements Account{
 	}
 
 }
+
+

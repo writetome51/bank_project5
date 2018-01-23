@@ -6,13 +6,10 @@ import {TransactionOrigin} from "./TransactionOrigin";
 
 export class RetirementAccount extends AbstractAccount {
 
-	balance = 100000;
-	accountType = AccountType.retirement;
-	protected _interestRate = 0.03;
 
-
- 	constructor(accountHolderName:string, accountHolderBirthDate:Date, accountCreationDate:Date){
- 		super(accountHolderName, accountHolderBirthDate, accountCreationDate);
+ 	constructor(accountHolderName:string, accountHolderBirthDate:Date){
+ 		super(accountHolderName, accountHolderBirthDate, 100000, 0.03);
+		this.accountType = AccountType.retirement;
 	}
 
 

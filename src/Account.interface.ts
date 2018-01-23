@@ -1,4 +1,6 @@
 import {Transaction} from "./Transaction.interface";
+import {TransactionOrigin} from "./TransactionOrigin";
+import {AccountType} from "./AccountType";
 
 export interface Account {
   accountHolderName: string;

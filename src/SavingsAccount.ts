@@ -7,13 +7,9 @@ import {AccountType} from "./AccountType";
 
 export class SavingsAccount extends AbstractAccount {
 
-	balance = 10000;
-	accountType = AccountType.savings;
-	protected _interestRate = 0.02;
-
-
-	constructor(accountHolderName:string, accountHolderBirthDate:Date, accountCreationDate:Date){
-		super(accountHolderName, accountHolderBirthDate, accountCreationDate);
+	constructor(accountHolderName:string, accountHolderBirthDate:Date){
+		super(accountHolderName, accountHolderBirthDate, 10000, 0.02);
+		this.accountType = AccountType.savings;
 	}
 
 

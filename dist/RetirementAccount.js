@@ -14,11 +14,9 @@ var AbstractAccount_1 = require("./AbstractAccount");
 var AccountType_1 = require("./AccountType");
 var RetirementAccount = /** @class */ (function (_super) {
     __extends(RetirementAccount, _super);
-    function RetirementAccount(accountHolderName, accountHolderBirthDate, accountCreationDate) {
-        var _this = _super.call(this, accountHolderName, accountHolderBirthDate, accountCreationDate) || this;
-        _this.balance = 100000;
+    function RetirementAccount(accountHolderName, accountHolderBirthDate) {
+        var _this = _super.call(this, accountHolderName, accountHolderBirthDate, 100000, 0.03) || this;
         _this.accountType = AccountType_1.AccountType.retirement;
-        _this._interestRate = 0.03;
         return _this;
     }
     RetirementAccount.prototype.withdrawMoney = function (amount, description, transactionOrigin) {

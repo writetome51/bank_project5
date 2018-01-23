@@ -1,15 +1,12 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var AbstractAccount = /** @class */ (function () {
-    function AbstractAccount(accountHolderName, accountHolderBirthDate, initialBalance, interestRate) {
+    function AbstractAccount(accountHolderName, accountHolderBirthDate) {
         this.accountHistory = [];
         this.accountHolderName = accountHolderName;
         this.accountHolderBirthDate = accountHolderBirthDate;
         this.accountHolderAge = getAge(this.accountHolderBirthDate);
-        this.balance = initialBalance;
-        this._interestRate = interestRate;
         this.addInterest();
-        console.log(this.balance);
         function getAge(birthDate) {
             var currentYear = (new Date()).getFullYear();
             return currentYear - birthDate.getFullYear();
@@ -141,4 +138,4 @@ var AbstractAccount = /** @class */ (function () {
     return AbstractAccount;
 }());
 exports.AbstractAccount = AbstractAccount;
-//# sourceMappingURL=AbstractAccount.js.map
+//# sourceMappingURL=AbstractAccount copy.js.map

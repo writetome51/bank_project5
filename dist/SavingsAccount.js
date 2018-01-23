@@ -15,11 +15,9 @@ var TransactionOrigin_1 = require("./TransactionOrigin");
 var AccountType_1 = require("./AccountType");
 var SavingsAccount = /** @class */ (function (_super) {
     __extends(SavingsAccount, _super);
-    function SavingsAccount(accountHolderName, accountHolderBirthDate, accountCreationDate) {
-        var _this = _super.call(this, accountHolderName, accountHolderBirthDate, accountCreationDate) || this;
-        _this.balance = 10000;
+    function SavingsAccount(accountHolderName, accountHolderBirthDate) {
+        var _this = _super.call(this, accountHolderName, accountHolderBirthDate, 10000, 0.02) || this;
         _this.accountType = AccountType_1.AccountType.savings;
-        _this._interestRate = 0.02;
         return _this;
     }
     SavingsAccount.prototype.withdrawMoney = function (amount, description, transactionOrigin) {

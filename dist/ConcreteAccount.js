@@ -10,20 +10,15 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-var AccountType_1 = require("./AccountType");
 var AbstractAccount_1 = require("./AbstractAccount");
-var CheckingAccount = /** @class */ (function (_super) {
-    __extends(CheckingAccount, _super);
-    function CheckingAccount(accountHolderName, accountHolderBirthDate) {
-        var _this = _super.call(this, accountHolderName, accountHolderBirthDate, 1000, 0.01) || this;
-        _this.accountType = AccountType_1.AccountType.checking;
+var ConcreteAccount = /** @class */ (function (_super) {
+    __extends(ConcreteAccount, _super);
+    function ConcreteAccount(accountHolderName, accountHolderBirthDate) {
+        var _this = _super.call(this, accountHolderName, accountHolderBirthDate) || this;
+        _this.addInterest();
         return _this;
     }
-    return CheckingAccount;
+    return ConcreteAccount;
 }(AbstractAccount_1.AbstractAccount));
-exports.CheckingAccount = CheckingAccount;
-//Tests:
-var checking = new CheckingAccount('Steve', new Date(1980, 5, 25));
-var transactionResult = checking.withdrawMoney(50, '', 3);
-console.log(transactionResult);
-//# sourceMappingURL=CheckingAccount.js.map
+exports.ConcreteAccount = ConcreteAccount;
+//# sourceMappingURL=ConcreteAccount.js.map
