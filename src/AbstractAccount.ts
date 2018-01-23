@@ -27,7 +27,6 @@ export abstract class AbstractAccount implements Account{
 		this._interestRate = interestRate;
 
 		this.addInterest();
-		console.log(this.balance);
 
 		function getAge(birthDate): number{
 			let currentYear = (new Date()).getFullYear();

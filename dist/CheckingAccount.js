@@ -22,8 +22,4 @@ var CheckingAccount = /** @class */ (function (_super) {
     return CheckingAccount;
 }(AbstractAccount_1.AbstractAccount));
 exports.CheckingAccount = CheckingAccount;
-//Tests:
-var checking = new CheckingAccount('Steve', new Date(1980, 5, 25));
-var transactionResult = checking.withdrawMoney(50, '', 3);
-console.log(transactionResult);
 //# sourceMappingURL=CheckingAccount.js.map

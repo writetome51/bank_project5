@@ -10,14 +10,4 @@ export class CheckingAccount extends AbstractAccount {
 		this.accountType = AccountType.checking;
 	}
 
-
-
 }
-
-
-//Tests:
-
-var checking = new CheckingAccount('Steve', new Date(1980, 5, 25));
-
-var transactionResult = checking.withdrawMoney(50, '', 3);
-console.log(transactionResult);

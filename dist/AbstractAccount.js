@@ -9,7 +9,6 @@ var AbstractAccount = /** @class */ (function () {
         this.balance = initialBalance;
         this._interestRate = interestRate;
         this.addInterest();
-        console.log(this.balance);
         function getAge(birthDate) {
             var currentYear = (new Date()).getFullYear();
             return currentYear - birthDate.getFullYear();
