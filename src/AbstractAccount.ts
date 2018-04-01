@@ -42,39 +42,7 @@ export abstract class AbstractAccount implements Account{
 	}
 
 
-	private _ifFirstTransactionOfMonthAddInterest(){
-		let currentDate = new Date();
-		let currentMonth = currentDate.getMonth();
-		let currentYear = currentDate.getFullYear();
-		if (this.accountHistory.length === 0){
-			return;
-		}
-		let lastTransaction: Transaction = this.accountHistory[this.accountHistory.length - 1];
-		let lastTransactionDate: Date = lastTransaction.transactionDate;
-		let lastTransactionMonth = lastTransactionDate.getMonth();
-		let lastTransactionYear = lastTransactionDate.getFullYear();
-
-		let monthDifference = 0;
-		if (currentYear > lastTransactionYear){
-			let yearDifference = currentYear - lastTransactionYear;
-			if (yearDifference > 1){
-				monthDifference = ((yearDifference - 1) * 12);
-			}
-			monthDifference += (11 - lastTransactionMonth + currentMonth + 1);
-
-		}
-		else if (currentMonth > lastTransactionMonth){
-			monthDifference = currentMonth - lastTransactionMonth;
-		}
-
-		for (let i=0; i < monthDifference; ++i){
-			this.addInterest();
-		}
-	}
-
-
 	withdrawMoney(amount: number, description: string, transactionOrigin: TransactionOrigin): Transaction {
-		this._ifFirstTransactionOfMonthAddInterest();
 
 		let success:boolean, errorMsg:string;
 		amount = this._roundTo2Decimals(amount);
@@ -111,7 +79,6 @@ export abstract class AbstractAccount implements Account{
 
 
 	depositMoney(amount: number, description: string): Transaction {
-		this._ifFirstTransactionOfMonthAddInterest();
 
 		let success:boolean, errorMsg:string;
 		amount = this._roundTo2Decimals(amount);
@@ -152,6 +119,7 @@ export abstract class AbstractAccount implements Account{
 		while (newDay > numberOfDaysInMonth(month, year)){
 			newDay -=  numberOfDaysInMonth(month, year);
 			month += 1;
+			this.addInterest();
 
 			if (month > 11){
 				month = 0;

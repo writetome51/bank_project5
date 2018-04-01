@@ -1,3 +1,5 @@
+import {TransactionOrigin} from "./TransactionOrigin";
+
 export interface Transaction {
 
   success: boolean;
@@ -6,6 +8,7 @@ export interface Transaction {
   // resultBalance will be unchanged from the previous balance when success is false.
   resultBalance: number;
   transactionDate: Date;
+  transactionOrigin ?: TransactionOrigin;
   description: string;
   // errorMessage will be an empty string when success is true:
   errorMessage: string;
