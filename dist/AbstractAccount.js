@@ -85,8 +85,9 @@ var AbstractAccount = /** @class */ (function () {
         while (newDay > numberOfDaysInMonth(month, year)) {
             newDay -= numberOfDaysInMonth(month, year);
             month += 1;
+            // I don't think he wants us to do this:
+            //this.ifPreviousMonthWasAccountsFirstMonth_addInterestForFirstMonth(year, month);
             this.addInterest();
-            this.ifPreviousMonthWasAccountsFirstMonth_addInterestForFirstMonth(year, month);
             if (month > 11) {
                 month = 0;
                 year += 1;
