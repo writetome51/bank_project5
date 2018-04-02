@@ -25,6 +25,7 @@ export class SavingsAccount extends AbstractAccount {
 				transactionOrigin:transactionOrigin,
 				errorMessage: 'You have met your limit of 6 withdrawals by phone or web this month.'
 			};
+			this.accountHistory.push(thisTransaction);
 			return thisTransaction;
 		}
 		else{
@@ -45,11 +46,15 @@ export class SavingsAccount extends AbstractAccount {
 				if (transaction.success && transaction.transactionOrigin &&
 					(transaction.transactionOrigin === TransactionOrigin.web ||
 						transaction.transactionOrigin === TransactionOrigin.phone)){
+
 					if (monthOf(transaction.transactionDate) === currentMonth &&
 						yearOf(transaction.transactionDate) === currentYear){
 						++numPhoneOrWebTransactions;
 					}
 					else numPhoneOrWebTransactions = 0;
+				}
+				else {
+					numPhoneOrWebTransactions = 0;
 				}
 
 				function monthOf(date){
@@ -61,7 +66,8 @@ export class SavingsAccount extends AbstractAccount {
 				}
 			}
 		);
-		return (numPhoneOrWebTransactions >= 6);
+		++numPhoneOrWebTransactions;
+		return (numPhoneOrWebTransactions > 6);
 	}
 
 

@@ -32,6 +32,7 @@ var SavingsAccount = /** @class */ (function (_super) {
                 transactionOrigin: transactionOrigin,
                 errorMessage: 'You have met your limit of 6 withdrawals by phone or web this month.'
             };
+            this.accountHistory.push(thisTransaction);
             return thisTransaction;
         }
         else {
@@ -54,6 +55,9 @@ var SavingsAccount = /** @class */ (function (_super) {
                 else
                     numPhoneOrWebTransactions = 0;
             }
+            else {
+                numPhoneOrWebTransactions = 0;
+            }
             function monthOf(date) {
                 return date.getMonth();
             }
@@ -61,7 +65,8 @@ var SavingsAccount = /** @class */ (function (_super) {
                 return date.getFullYear();
             }
         });
-        return (numPhoneOrWebTransactions >= 6);
+        ++numPhoneOrWebTransactions;
+        return (numPhoneOrWebTransactions > 6);
     };
     return SavingsAccount;
 }(AbstractAccount_1.AbstractAccount));
