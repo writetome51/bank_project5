@@ -49,6 +49,7 @@ export class SavingsAccount extends AbstractAccount {
 						yearOf(transaction.transactionDate) === currentYear){
 						++numPhoneOrWebTransactions;
 					}
+					else numPhoneOrWebTransactions = 0;
 				}
 
 				function monthOf(date){

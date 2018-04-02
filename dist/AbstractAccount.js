@@ -3,12 +3,13 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var AbstractAccount = /** @class */ (function () {
     function AbstractAccount(accountHolderName, accountHolderBirthDate, initialBalance, interestRate) {
         this.accountHistory = [];
+        this.accountCreationDate = new Date();
         this.accountHolderName = accountHolderName;
         this.accountHolderBirthDate = accountHolderBirthDate;
         this.accountHolderAge = getAge(this.accountHolderBirthDate);
+        this.initialBalance = initialBalance;
         this.balance = initialBalance;
         this._interestRate = interestRate;
-        this.addInterest();
         function getAge(birthDate) {
             var currentYear = (new Date()).getFullYear();
             return currentYear - birthDate.getFullYear();
@@ -19,34 +20,12 @@ var AbstractAccount = /** @class */ (function () {
         interest = this._roundTo2Decimals(interest);
         this.balance += interest;
     };
-    AbstractAccount.prototype._ifFirstTransactionOfMonthAddInterest = function () {
-        var currentDate = new Date();
-        var currentMonth = currentDate.getMonth();
-        var currentYear = currentDate.getFullYear();
-        if (this.accountHistory.length === 0) {
-            return;
-        }
-        var lastTransaction = this.accountHistory[this.accountHistory.length - 1];
-        var lastTransactionDate = lastTransaction.transactionDate;
-        var lastTransactionMonth = lastTransactionDate.getMonth();
-        var lastTransactionYear = lastTransactionDate.getFullYear();
-        var monthDifference = 0;
-        if (currentYear > lastTransactionYear) {
-            var yearDifference = currentYear - lastTransactionYear;
-            if (yearDifference > 1) {
-                monthDifference = ((yearDifference - 1) * 12);
-            }
-            monthDifference += (11 - lastTransactionMonth + currentMonth + 1);
-        }
-        else if (currentMonth > lastTransactionMonth) {
-            monthDifference = currentMonth - lastTransactionMonth;
-        }
-        for (var i = 0; i < monthDifference; ++i) {
-            this.addInterest();
-        }
+    AbstractAccount.prototype.addFirstMonthsInterest = function () {
+        var interest = (this.initialBalance * this._interestRate / 12);
+        interest = this._roundTo2Decimals(interest);
+        this.balance += interest;
     };
     AbstractAccount.prototype.withdrawMoney = function (amount, description, transactionOrigin) {
-        this._ifFirstTransactionOfMonthAddInterest();
         var success, errorMsg;
         amount = this._roundTo2Decimals(amount);
         if (amount < 0) {
@@ -75,7 +54,6 @@ var AbstractAccount = /** @class */ (function () {
         return thisTransaction;
     };
     AbstractAccount.prototype.depositMoney = function (amount, description) {
-        this._ifFirstTransactionOfMonthAddInterest();
         var success, errorMsg;
         amount = this._roundTo2Decimals(amount);
         if (amount > 0) {
@@ -107,6 +85,8 @@ var AbstractAccount = /** @class */ (function () {
         while (newDay > numberOfDaysInMonth(month, year)) {
             newDay -= numberOfDaysInMonth(month, year);
             month += 1;
+            this.addInterest();
+            this.ifPreviousMonthWasAccountsFirstMonth_addInterestForFirstMonth(year, month);
             if (month > 11) {
                 month = 0;
                 year += 1;
@@ -128,6 +108,14 @@ var AbstractAccount = /** @class */ (function () {
         function isLeapYear(year) {
             return ((year % 400 === 0) ||
                 (year % 4 === 0 && year % 100 !== 0));
+        }
+    };
+    AbstractAccount.prototype.ifPreviousMonthWasAccountsFirstMonth_addInterestForFirstMonth = function (year, month) {
+        var accountCreationYear = this.accountCreationDate.getFullYear();
+        var accountCreationMonth = this.accountCreationDate.getMonth();
+        if (accountCreationYear === year &&
+            (accountCreationMonth === (month - 1))) {
+            this.addFirstMonthsInterest();
         }
     };
     AbstractAccount.prototype._roundTo2Decimals = function (number) {

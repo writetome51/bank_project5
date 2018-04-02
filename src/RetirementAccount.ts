@@ -15,7 +15,7 @@ export class RetirementAccount extends AbstractAccount {
 
 	withdrawMoney(amount: number, description: string, transactionOrigin: TransactionOrigin): Transaction{
 		if (this.accountHolderAge < 60){
-			this.balance -= this._getTenPercentOf(this.balance);
+			this.balance -= this._getTenPercentOf(amount);
 		}
  		return super.withdrawMoney(amount, description, transactionOrigin);
 

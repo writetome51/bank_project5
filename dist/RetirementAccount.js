@@ -21,7 +21,7 @@ var RetirementAccount = /** @class */ (function (_super) {
     }
     RetirementAccount.prototype.withdrawMoney = function (amount, description, transactionOrigin) {
         if (this.accountHolderAge < 60) {
-            this.balance -= this._getTenPercentOf(this.balance);
+            this.balance -= this._getTenPercentOf(amount);
         }
         return _super.prototype.withdrawMoney.call(this, amount, description, transactionOrigin);
     };

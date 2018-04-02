@@ -51,6 +51,8 @@ var SavingsAccount = /** @class */ (function (_super) {
                     yearOf(transaction.transactionDate) === currentYear) {
                     ++numPhoneOrWebTransactions;
                 }
+                else
+                    numPhoneOrWebTransactions = 0;
             }
             function monthOf(date) {
                 return date.getMonth();

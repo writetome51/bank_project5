@@ -13,6 +13,7 @@ export abstract class AbstractAccount implements Account{
 	accountType: AccountType;
 	accountHistory: Transaction[] = [];
 	accountCreationDate: Date;
+	initialBalance: number;
 	protected _interestRate: number;
 
 
@@ -20,13 +21,14 @@ export abstract class AbstractAccount implements Account{
 		accountHolderName:string,  accountHolderBirthDate:Date,
 		initialBalance:number,  interestRate){
 
+		this.accountCreationDate = new Date();
 		this.accountHolderName = accountHolderName;
 		this.accountHolderBirthDate = accountHolderBirthDate;
 		this.accountHolderAge = getAge(this.accountHolderBirthDate);
+		this.initialBalance = initialBalance;
 		this.balance = initialBalance;
 		this._interestRate = interestRate;
 
-		this.addInterest();
 
 		function getAge(birthDate): number{
 			let currentYear = (new Date()).getFullYear();
@@ -37,6 +39,12 @@ export abstract class AbstractAccount implements Account{
 
 	addInterest(): void{
 		let interest = this.balance * this._interestRate / 12;
+		interest = this._roundTo2Decimals(interest);
+		this.balance += interest;
+	}
+
+	addFirstMonthsInterest(){
+		let interest = (this.initialBalance * this._interestRate / 12);
 		interest = this._roundTo2Decimals(interest);
 		this.balance += interest;
 	}
@@ -120,6 +128,7 @@ export abstract class AbstractAccount implements Account{
 			newDay -=  numberOfDaysInMonth(month, year);
 			month += 1;
 			this.addInterest();
+			this.ifPreviousMonthWasAccountsFirstMonth_addInterestForFirstMonth(year, month);
 
 			if (month > 11){
 				month = 0;
@@ -152,6 +161,18 @@ export abstract class AbstractAccount implements Account{
 		}
 
 
+	}
+
+
+	protected ifPreviousMonthWasAccountsFirstMonth_addInterestForFirstMonth(year, month){
+
+		let accountCreationYear = this.accountCreationDate.getFullYear();
+		let accountCreationMonth = this.accountCreationDate.getMonth();
+		if (accountCreationYear === year &&
+			(accountCreationMonth === (month - 1))
+		){
+			this.addFirstMonthsInterest();
+		}
 	}
 
 
