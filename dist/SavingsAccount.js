@@ -27,7 +27,7 @@ var SavingsAccount = /** @class */ (function (_super) {
                 success: false,
                 amount: -(amount),
                 resultBalance: this.balance,
-                transactionDate: new Date(),
+                transactionDate: this.currentDate,
                 description: description,
                 transactionOrigin: transactionOrigin,
                 errorMessage: 'You have met your limit of 6 withdrawals by phone or web this month.'
@@ -41,9 +41,8 @@ var SavingsAccount = /** @class */ (function (_super) {
     };
     SavingsAccount.prototype._hasSixWithdrawalsFromWebAndPhone = function () {
         var numPhoneOrWebTransactions = 0;
-        var theDate = new Date();
-        var currentMonth = theDate.getMonth();
-        var currentYear = theDate.getFullYear();
+        var currentMonth = this.currentDate.getMonth();
+        var currentYear = this.currentDate.getFullYear();
         this.accountHistory.forEach(function (transaction) {
             if (transaction.success && transaction.transactionOrigin &&
                 (transaction.transactionOrigin === TransactionOrigin_1.TransactionOrigin.web ||
@@ -65,7 +64,7 @@ var SavingsAccount = /** @class */ (function (_super) {
                 return date.getFullYear();
             }
         });
-        ++numPhoneOrWebTransactions;
+        ++numPhoneOrWebTransactions; // this counts this transaction.
         return (numPhoneOrWebTransactions > 6);
     };
     return SavingsAccount;

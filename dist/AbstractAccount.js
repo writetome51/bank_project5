@@ -4,6 +4,7 @@ var AbstractAccount = /** @class */ (function () {
     function AbstractAccount(accountHolderName, accountHolderBirthDate, initialBalance, interestRate) {
         this.accountHistory = [];
         this.accountCreationDate = new Date();
+        this.currentDate = this.accountCreationDate;
         this.accountHolderName = accountHolderName;
         this.accountHolderBirthDate = accountHolderBirthDate;
         this.accountHolderAge = getAge(this.accountHolderBirthDate);
@@ -45,7 +46,7 @@ var AbstractAccount = /** @class */ (function () {
             success: success,
             amount: -(amount),
             resultBalance: this.balance,
-            transactionDate: new Date(),
+            transactionDate: this.currentDate,
             description: description,
             transactionOrigin: transactionOrigin,
             errorMessage: errorMsg
@@ -69,7 +70,7 @@ var AbstractAccount = /** @class */ (function () {
             success: success,
             amount: amount,
             resultBalance: this.balance,
-            transactionDate: new Date(),
+            transactionDate: this.currentDate,
             description: description,
             errorMessage: errorMsg
         };
@@ -77,10 +78,9 @@ var AbstractAccount = /** @class */ (function () {
         return thisTransaction;
     };
     AbstractAccount.prototype.advanceDate = function (numberOfDays) {
-        var d = new Date();
-        var year = d.getFullYear();
-        var month = d.getMonth();
-        var day = d.getDate();
+        var year = this.currentDate.getFullYear();
+        var month = this.currentDate.getMonth();
+        var day = this.currentDate.getDate();
         var newDay = day + numberOfDays;
         while (newDay > numberOfDaysInMonth(month, year)) {
             newDay -= numberOfDaysInMonth(month, year);
@@ -93,7 +93,8 @@ var AbstractAccount = /** @class */ (function () {
                 year += 1;
             }
         }
-        return new Date(year, month, day);
+        this.currentDate = new Date(year, month, day);
+        return this.currentDate;
         function numberOfDaysInMonth(monthID, yearID) {
             var feb;
             //Check if supplied month is February...

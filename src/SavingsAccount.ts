@@ -20,7 +20,7 @@ export class SavingsAccount extends AbstractAccount {
 				success: false,
 				amount: -(amount),
 				resultBalance: this.balance,
-				transactionDate: new Date(),
+				transactionDate: this.currentDate,
 				description: description,
 				transactionOrigin:transactionOrigin,
 				errorMessage: 'You have met your limit of 6 withdrawals by phone or web this month.'
@@ -38,9 +38,9 @@ export class SavingsAccount extends AbstractAccount {
 
 	private _hasSixWithdrawalsFromWebAndPhone(): boolean{
 		let numPhoneOrWebTransactions = 0;
-		let theDate = new Date();
-		let currentMonth = theDate.getMonth();
-		let currentYear = theDate.getFullYear();
+
+		let currentMonth = this.currentDate.getMonth();
+		let currentYear = this.currentDate.getFullYear();
 		this.accountHistory.forEach(
 			function(transaction){
 				if (transaction.success && transaction.transactionOrigin &&
@@ -66,7 +66,7 @@ export class SavingsAccount extends AbstractAccount {
 				}
 			}
 		);
-		++numPhoneOrWebTransactions;
+		++numPhoneOrWebTransactions; // this counts this transaction.
 		return (numPhoneOrWebTransactions > 6);
 	}
 

@@ -14,6 +14,8 @@ savings.withdrawMoney(100, '', TransactionOrigin_1.TransactionOrigin.web);
 savings.withdrawMoney(100, '', TransactionOrigin_1.TransactionOrigin.web);
 savings.withdrawMoney(100, '', TransactionOrigin_1.TransactionOrigin.web);
 savings.withdrawMoney(100, '', TransactionOrigin_1.TransactionOrigin.web);
+savings.advanceDate(30);
+savings.withdrawMoney(100, '', TransactionOrigin_1.TransactionOrigin.web);
 console.log('');
 console.log(savings);
 //# sourceMappingURL=tests.js.map

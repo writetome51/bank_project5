@@ -14,5 +14,8 @@ savings.withdrawMoney(100,'',TransactionOrigin.web);
 savings.withdrawMoney(100,'',TransactionOrigin.web);
 savings.withdrawMoney(100,'',TransactionOrigin.web);
 
+savings.advanceDate(30);
+savings.withdrawMoney(100,'',TransactionOrigin.web);
+
 console.log('');
 console.log(savings);

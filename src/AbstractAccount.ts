@@ -13,6 +13,7 @@ export abstract class AbstractAccount implements Account{
 	accountType: AccountType;
 	accountHistory: Transaction[] = [];
 	accountCreationDate: Date;
+	currentDate: Date;
 	initialBalance: number;
 	protected _interestRate: number;
 
@@ -22,6 +23,7 @@ export abstract class AbstractAccount implements Account{
 		initialBalance:number,  interestRate){
 
 		this.accountCreationDate = new Date();
+		this.currentDate = this.accountCreationDate;
 		this.accountHolderName = accountHolderName;
 		this.accountHolderBirthDate = accountHolderBirthDate;
 		this.accountHolderAge = getAge(this.accountHolderBirthDate);
@@ -74,7 +76,7 @@ export abstract class AbstractAccount implements Account{
 			success: success,
 			amount: -(amount),
 			resultBalance: this.balance,
-			transactionDate: new Date(),
+			transactionDate: this.currentDate,
 			description: description,
 			transactionOrigin:transactionOrigin,
 			errorMessage: errorMsg
@@ -105,7 +107,7 @@ export abstract class AbstractAccount implements Account{
 			success: success,
 			amount: amount,
 			resultBalance: this.balance,
-			transactionDate: new Date(),
+			transactionDate: this.currentDate,
 			description: description,
 			errorMessage: errorMsg
 		};
@@ -117,10 +119,9 @@ export abstract class AbstractAccount implements Account{
 
 	advanceDate(numberOfDays: number): Date {
 
-		let d = new Date();
-		let year = d.getFullYear();
-		let month = d.getMonth();
-		let day = d.getDate();
+		let year = this.currentDate.getFullYear();
+		let month = this.currentDate.getMonth();
+		let day = this.currentDate.getDate();
 
 		let newDay = day + numberOfDays;
 
@@ -137,8 +138,8 @@ export abstract class AbstractAccount implements Account{
 				year += 1;
 			}
 		}
-
-		return new Date(year, month, day);
+		this.currentDate = new Date(year, month, day);
+		return this.currentDate;
 
 
 		function numberOfDaysInMonth(monthID, yearID): number{
